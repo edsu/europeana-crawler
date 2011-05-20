@@ -1,0 +1,5 @@
+europeana-crawler is a simple proof of concept script for extracting 
+rdfa metadata from record pages using the sitemap they make available
+for search engine crawlers. The triples for each resource are persisted
+as a file to the filesystem using a pairtree to evently distribute the
+files across subdirectories.
