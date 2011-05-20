@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 """
-This script uses the Europeana's sitemap to extreact rdfa metadata from the
-pages and save it off as ntriples to the local filesystem using pairtree to 
-spread out the files.
+This script uses Europeana's sitemap to extract rdfa metadata from the
+pages and save it off as ntriples to the local filesystem.
 """
 
 import os
