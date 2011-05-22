@@ -3,3 +3,16 @@ rdfa metadata from record pages using the sitemap they make available
 for search engine crawlers. The triples for each resource are persisted
 as a file to the filesystem using a pairtree to evently distribute the
 files across subdirectories.
+
+To run the crawler you'll need to install a few dependencies. You might
+want to do this with a virtualenv, or globally on your system. The 
+instructions here are for using a virtualenv:
+
+1. virtualenv --no-site-packages ENV
+2. source ENV/bin/activate
+3. pip install -r requirements.pip
+4. ./crawl.py
+5. tail -f crawl.log
+
+Questions, comments:
+Ed Summers <ehs@pobox.com>

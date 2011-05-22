@@ -8,6 +8,7 @@ pages and save it off as ntriples to the local filesystem.
 import os
 import re
 import time
+import logging
 
 import ptree
 import rdflib
@@ -19,36 +20,34 @@ def crawl(url):
     crawl a website using its sitemap, and save off the rdfa extracted
     from the page.
     """
+    count = 0 
+
     for urlset in sitemap.SitemapIndex.from_url(url):
         for url in urlset:
-            graph = rdflib.Graph()
-            graph.parse(url.loc, format="rdfa")
-            print write_record(url.loc, graph)
-            # not so fast sparky
+            try:
+                fetch(url.loc)
+            except:
+                logging.exception("unable to fetch %s" % url.loc)
+            # respect
             time.sleep(2)
 
 
-def write_record(url, graph):
-    """
-    write the graph as ntriples to the filesystem using a pairtree to spread 
-    it out
-    """
-    # get the identifier from the url
-    m = re.search('([A-Z0-9]+).html$', url)
-    if not m: return
-
-    # create the directory if we need to
-    id = m.group(1)
-    dirname = "store" + ptree.id2ptree(id)
+def fetch(url):
+    dirname = "store" + ptree.id2ptree(url)
+    path = os.path.join(dirname, "metadata.nt")
     if not os.path.isdir(dirname):
         os.makedirs(dirname)
 
-    # write dem triples out
-    path = os.path.join(dirname, id + ".nt")
+    graph = rdflib.Graph()
+    graph.parse(url, format="rdfa")
+    triples = len(graph)
     graph.serialize(open(path, "w"), format="nt")
+
+    logging.info("saved %s as %i triples in %s" % (url, triples, path))
 
     return path
 
 
 if __name__ == "__main__":
+    logging.basicConfig(filename="crawl.log", level=logging.INFO)
     crawl("http://www.europeana.eu/portal/europeana-sitemap-index-hashed.xml")
