@@ -1,3 +1,5 @@
+lxml
 ptree
 rdflib
+html5lib
 -e git+https://github.com/andreisavu/python-sitemap.git#egg=sitemap
