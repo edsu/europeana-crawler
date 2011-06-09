@@ -12,6 +12,7 @@ def metadata_files():
 def aggregate():
     for metadata_file in metadata_files():
         for line in open(metadata_file):
+            # ignore things that aren't about a specific URI
             if not line.startswith("<>"):
                 line = line.strip()
                 print line
